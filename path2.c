@@ -1,13 +1,12 @@
-
-	#include<stdio.h>
+#include<stdio.h>
 #define INFINITY 9999
 #define MAX 10
  
-void dijkstra(int G[MAX][MAX],int n,int startnode);
+void dijkstra(int G[MAX][MAX],int n,int startnode,int endnode);
  
 int main()
 {
-    int G[MAX][MAX],i,j,n,u;
+    int G[MAX][MAX],i,j,n,u,e;
     printf("Enter no. of vertices:");
     scanf("%d",&n);
     printf("\nEnter the adjacency matrix:\n");
@@ -18,12 +17,13 @@ int main()
     
     printf("\nEnter the starting node:");
     scanf("%d",&u);
-    dijkstra(G,n,u);
-    
+    printf("\nEnter the end node:");
+    scanf("%d",&e);
+    dijkstra(G,n,u,e);
     return 0;
 }
  
-void dijkstra(int G[MAX][MAX],int n,int startnode)
+void dijkstra(int G[MAX][MAX],int n,int startnode,int endnode)
 {
  
     int cost[MAX][MAX],distance[MAX],pred[MAX];
@@ -57,7 +57,7 @@ void dijkstra(int G[MAX][MAX],int n,int startnode)
         
         //nextnode gives the node at minimum distance
         for(i=0;i<n;i++)
-            if(distance[i]<mindistance&&!visited[i])
+            if(distance[i]<mindistance && visited[i]==0)
             {
                 mindistance=distance[i];
                 nextnode=i;
@@ -66,7 +66,7 @@ void dijkstra(int G[MAX][MAX],int n,int startnode)
             //check if a better path exists through nextnode            
             visited[nextnode]=1;
             for(i=0;i<n;i++)
-                if(!visited[i])
+                if(visited[i]==0)
                     if(mindistance+cost[nextnode][i]<distance[i])
                     {
                         distance[i]=mindistance+cost[nextnode][i];
@@ -77,17 +77,25 @@ void dijkstra(int G[MAX][MAX],int n,int startnode)
  
     //print the path and distance of each node
     for(i=0;i<n;i++)
-        if(i!=startnode)
+        if(i!=startnode && i==endnode)
         {
-            printf("\nDistance of node%d=%d",i,distance[i]);
-            printf("\nPath=%d",i);
-            
+            printf("\nDistance of node %d = %d",i,distance[i]);
+            printf("\nPath = %c",i+65);
             j=i;
             do
             {
                 j=pred[j];
-                printf("<-%d",j);
+                printf(" <- %c",j+65);
             }while(j!=startnode);
-      }
+           // printf("Backtracking : ");
+            printf("\nBacktracking = %c",i+65);
+            j=i;
+            do
+            {
+                j=pred[j];
+                printf(" -> %c",j+65);
+            }while(j!=startnode);
+            break;
+      	}
 }
    
