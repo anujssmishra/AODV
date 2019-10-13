@@ -1,13 +1,6 @@
-
 #include <stdio.h>
-#include<stdlib.h>
-#include <conio.h>
-#include <alloc.h>
-
- #include <stdio.h>
 // #include <conio.h>
 #include <malloc.h>
-
 struct node
 {
 char vertex;
